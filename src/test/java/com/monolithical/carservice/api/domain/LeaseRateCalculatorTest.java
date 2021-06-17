@@ -18,8 +18,8 @@ class LeaseContractDataTest {
             .version("version")
             .doorCount(4)
             .co2Emission(new BigDecimal("122.4"))
-            .grossPrice(7500000L)
-            .nettPrice(6300000L)
+            .grossPriceInCents(75000L)
+            .nettPriceInCents(63000L)
             .build();
     // calculation
     var mileage = 45000;
@@ -28,7 +28,7 @@ class LeaseContractDataTest {
     var unit = new LeaseContractData(car);
     unit.setMileage(mileage);
     unit.setInterestRate(interestRate);
-    unit.setDuration(duration);
+    unit.setDurationInMonths(duration);
     var expected = new BigDecimal("239.82");
 
     assertThat(unit.leaseRate(), equalTo(expected));

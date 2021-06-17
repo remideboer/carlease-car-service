@@ -1,11 +1,21 @@
 package com.monolithical.carservice.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 
 /**
  * Model to represent car data
  */
+@Entity
 public class Car {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     private String make;
     private String model;
@@ -26,6 +36,13 @@ public class Car {
         this.nettPrice = builder.nettPrice;
     }
 
+    /**
+     * Used by JPA/Hibernate and Spring JSON marshalling
+     */
+    public Car() {
+
+    }
+
     public static class Builder {
         private Long id;
         private String make;
@@ -36,7 +53,7 @@ public class Car {
         private Long grossPrice; // in cents
         private Long nettPrice; // in cents
 
-        public Car build(){
+        public Car build() {
             return new Car(this);
         }
 
@@ -65,12 +82,12 @@ public class Car {
             return this;
         }
 
-        public Builder grossPrice(Long price) {
+        public Builder grossPriceInCents(Long price) {
             this.grossPrice = price;
             return this;
         }
 
-        public Builder nettPrice(Long price) {
+        public Builder nettPriceInCents(Long price) {
             this.nettPrice = price;
             return this;
         }

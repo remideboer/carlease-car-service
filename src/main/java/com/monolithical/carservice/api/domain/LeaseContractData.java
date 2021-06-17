@@ -6,7 +6,7 @@ import java.time.Period;
 
 public class LeaseContractData {
   private int mileage;
-  private Period duration;
+  private Period durationInMonths;
   private BigDecimal interestRatePercent;
   private Car car;
 
@@ -18,8 +18,8 @@ public class LeaseContractData {
     this.mileage = mileage;
   }
 
-  public void setDuration(Period duration) {
-    this.duration = duration;
+  public void setDurationInMonths(Period durationInMonths) {
+    this.durationInMonths = durationInMonths;
   }
 
   /**
@@ -40,15 +40,15 @@ public class LeaseContractData {
   }
 
   private BigDecimal monthlyMileageNettPriceRatio() {
-    return mileageOverDuration().divide(carNettPriceEuro(), 5, RoundingMode.HALF_UP);
+    return mileageOverDuration().divide(BigDecimal.valueOf(car.getNettPrice()), 5, RoundingMode.HALF_UP);
   }
 
   private BigDecimal mileageOverDuration() {
-    return monthlyMileage().multiply(BigDecimal.valueOf(duration.getMonths()));
+    return monthlyMileage().multiply(BigDecimal.valueOf(durationInMonths.getMonths()));
   }
 
   private BigDecimal carInterest() {
-    return interestRatePercent.multiply(carNettPriceEuro());
+    return interestRatePercent.multiply(BigDecimal.valueOf(car.getNettPrice()));
   }
 
   private BigDecimal carInterestPerMonth() {
@@ -56,20 +56,27 @@ public class LeaseContractData {
   }
 
   /**
-   * Converts price from cents to euro
-   *
-   * @return
-   */
-  private BigDecimal carNettPriceEuro() {
-    return BigDecimal.valueOf(car.getNettPrice()).scaleByPowerOfTen(-2);
-  }
-
-  /**
-   * Converst supplied interest rate to percentage
+   * Convert supplied interest rate to percentage
    *
    * @param interestRate
    */
   public void setInterestRate(BigDecimal interestRate) {
     this.interestRatePercent = interestRate.scaleByPowerOfTen(-2);
+  }
+
+  public int getMileage() {
+    return mileage;
+  }
+
+  public int getDurationInMonths() {
+    return durationInMonths.getMonths();
+  }
+
+  public BigDecimal getInterestRatePercent() {
+    return interestRatePercent.scaleByPowerOfTen(2);
+  }
+
+  public Car getCar() {
+    return car;
   }
 }
