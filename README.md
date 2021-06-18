@@ -1,4 +1,4 @@
-# Car Service for Carlease assigment
+# Car Service for Carlease assignment
 
 ## Functionality
 
@@ -11,7 +11,6 @@ service. Endpoints require a valid JWT issued by an API-gateway sharing the same
 - [ ] Phase 2: Swagger docs / REST Docs
 
 ```
-api prefix and version should be handled by an api gateway
 - [x] GET:    {domain}/cars       - returns al cars
 - [x] GET:    {domain}/cars/{id}  - returns specific cars
 - [x] POST    {domain}/cars       - create new cars
@@ -36,7 +35,7 @@ Sample POST/PUT Body
 
 ## Run application
 
-This service runs on port 9092
+This service currently runs on port 9092
 
 In development use dev profile:
 
@@ -44,8 +43,12 @@ In development use dev profile:
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
+### Authentication
+
+This service requires a valid JWT to use any endpoint, the JWT must contain a expiration, ```exp```, claim
+
 When not using an authentication service to create a valid token got to [jwt.io](https://jwt.io/) set the
-expiration ```"exp"``` claim to later then current UTC and use a secret in the dev profile:
+expiration ```"exp"``` claim to later than current UTC and use a secret in the dev profile:
 
 JWT payload example
 
