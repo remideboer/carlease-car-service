@@ -1,29 +1,24 @@
 package com.monolithical.carservice.api.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
  * Model to represent car data
  */
 @Entity
+@Table(name = "car")
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
     private String make;
     private String model;
     private String version;
     private int doorCount;
     private BigDecimal co2Emission;
-    private Long grossPrice; // in cents
-    private Long nettPrice; // in cents
+    private Long grossPrice;
+    private Long nettPrice;
 
     public Car(Builder builder) {
         this.id = builder.id;
@@ -123,5 +118,22 @@ public class Car {
 
     public Long getNettPrice() {
         return nettPrice;
+    }
+
+    /**
+     * convenience function to encapsulate self updates
+     * does not update id
+     *
+     * @param car this car
+     */
+    public Car update(Car car) {
+        this.make = car.make;
+        this.model = car.model;
+        this.version = car.version;
+        this.doorCount = car.doorCount;
+        this.co2Emission = car.co2Emission;
+        this.grossPrice = car.grossPrice;
+        this.nettPrice = car.nettPrice;
+        return this;
     }
 }
